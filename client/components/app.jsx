@@ -38,7 +38,7 @@ class App extends React.Component {
       day = `0${day}`;
     }
 
-    return `${year}-${month}-01`;
+    return `${year}-${month}-${day}`;
   }
 
   fetch(index, currency, start, end) {
@@ -99,7 +99,7 @@ class App extends React.Component {
           pointHoverBorderWidth: 2,
           pointRadius: 1,
           pointHitRadius: 10,
-          data: yCoordinates
+          data: yCoordinates,
         }
       ]
     };
@@ -118,12 +118,14 @@ class App extends React.Component {
   }
 
   render() {
+    const currentDate = this.getDate(Date.now());
+    console.log(currentDate)
     if(this.state.isLoading) return null;
     return(
       <div>
         <Line data={this.state.chartContent} />
         <input type="date" id="from" placeholder="FROM" value={this.state.fromDate} onChange={(e) => this.handleDateClick(e, 'from')}/>
-        <input type="date" id="to" placeholder="TO" value={this.state.toDate} onChange={(e) => this.handleDateClick(e, 'to')}/>
+        <input type="date" id="to" placeholder="TO" value={this.state.toDate} max={currentDate} onChange={(e) => this.handleDateClick(e, 'to')}/>
         <button onClick={() => this.handleClick()}>GO</button>
       </div>
     );
